@@ -6,11 +6,7 @@ mkdir minesweeper
 git init
 touch README.md
 nano README.md
-```
-
-Type something in README file, it can't be empty
-
-```
+(type # minesweeper in the first line of the file and save, it can't be empty)
 git init
 curl -u 'jlollis' https://api.github.com/user/repos -d '{"name":"minesweeper"}'
 git remote add origin git@github.com:jlollis/minesweeper.git
