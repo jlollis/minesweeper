@@ -31,12 +31,13 @@ class Board
     board
   end  
 
+  # randomly seed grid with bombs
   def random_seed
     @grid = []
     File.open('minefield.txt', 'w') do |file|
 
       @rows.times do |line|
-        strip = (1..@rows).map { ['.', '.', '.', '.', 'B'].sample }.join
+        strip = (1..@rows).map { ['0', '0', '0', '0', '1'].sample }.join # 1 isS bomb
         @grid << strip.split('').map(&:to_i)
         file.puts strip
       end
@@ -45,40 +46,54 @@ class Board
     end
   end
 
-  
-  # def populate_array(file)
-  #   @grid = []
-  #   File.open(file).map do |line|
-  #     @grid << line.chomp.split('').map(&:to_i)
-  #   end
-  #   @grid
-  # end
-
   def populate_board
     File.open('minefield.txt', 'r') do |file|
 
       file.each_line do |line|
-        @grid << line.chomp.split('').map
+        @grid << line.chomp.split('').map.(&:to_s)
       end
       p @grid
     end
   end
 
-  # update the value of a Tile to the given postition
-  def update_tile
-    # update selection for grid[col][row]
-    puts "#{@grid[2][0]}"
-    
-    # puts "Select a tile: "
-    # print "row: "
-    # row = gets.chomp.to_i
-    # print "column: "
-    # col = gets.chomp.to_i
-    # puts
+  def reveal_square
+    # choose a square to reveal. 
+    # If it contains a bomb, game over. 
+    # Otherwise, it will be revealed. 
+    # If none of its neighbors contains a bomb, 
+    # then all the adjacent neighbors are also revealed. 
+    # If any of the neighbors have no adjacent bombs, 
+    # they too are revealed.
+  end
 
-    # @grid[row][col] = val
+
+  # update the value of a Tile to the given postition
+  def choose_square
+    # update selection for grid[col][row]
+    # puts "#{@grid[2][0]}"
+    
+    puts "Select a square: "
+    print "row: "
+    row = gets.chomp.to_i
+    print "column: "
+    col = gets.chomp.to_i
+    puts
+
+    char = "_"
+    
+    puts @grid[row][col]
 
   end
+
+  # def check_square
+  #   x = grid[row][col]
+  #     self.update_square
+  #   end
+  # end
+
+  # def update_square
+
+  # end
 
   # render current board state
   def render
@@ -95,12 +110,12 @@ class Board
           print "|".light_black
         end
         # color coding output to cells
-        if " #{value} ".match?(/[0]/)  # no values printed for open spaces
-          print "   "
-        elsif value.is_a? String   # values changed by player are printed in yellow
+        if " #{value} ".match?(/[B]/)  # bombs
+          print " B ".red
+        elsif value.is_a? String   # selected square
           print " #{value} ".light_yellow
         else
-          print " #{value} ".light_blue  # OG values are printed in blue
+          print " ? ".light_black  
         end
       end
       print "|\n".light_black
@@ -114,37 +129,52 @@ class Board
 
   def solved?
     # are there any tiles on the board that are uncovered?
-    # if grid.flatten.each.include?(0)
-    #   return false
-    # else
-    #   puts "You found all the mines! Yay!!".light_yellow
-    #   puts
-    #   puts "  (•_•) / ( •_•)>⌐■-■ / (⌐■_■) ".light_yellow
-    #   puts
-    #   return true
-    # end
+    if grid.flatten.each.include?(0)
+      return false
+    else
+      puts "You found all the mines! Yay!!".light_yellow
+      puts
+      puts "  (•_•) / ( •_•)>⌐■-■ / (⌐■_■) ".light_yellow
+      puts
+      return true
+    end
   end
 
   def splash
-    title = %q{
-
-                    ( ͡° ͜ʖ ͡°)     
+#     title = %q{
+#            _____                   _____
+#           |     |                 |   __|
+#           | | | |    ( ͡° ͜ʖ ͡°)     |__   |
+#           |_|_|_|                 |_____|  
           
- }.light_yellow
+#  }.yellow
 
-   print title
+#  normal = %q{
+#            _____                   _____
+#           |     |                 |   __|
+#           | | | |    ( ͡° ͜ʖ ͡°)     |__   |
+#           |_|_|_|                 |_____|  
+          
+#  }.yellow
 
-  end
+#  anticipation = %q{
+#            _____                   _____
+#           |     |                 |   __|
+#           | | | |    ( ͡° ʖ ͡°)     |__   |
+#           |_|_|_|        0        |_____| 
+          
+#  }.yellow
 
-  def timer 
-    minutes = 0.2
-    start_time = Time.now
-    seconds = minutes * 60
-    end_time = start_time + seconds 
-    while Time.now < end_time
-    end
-    puts "It's Over!"
-  end
+#  death = %q{
+#            _____                   _____
+#           |     |                 |   __|
+#           | | | |    ( ͡X ʖ ͡X)     |__   |
+#           |_|_|_|        ~        |_____| 
+          
+#  }.yellow
+#    print normal
+
+#   end
 
 end
 
@@ -159,27 +189,20 @@ class Game < Board
     b = Board.new
 
     b.random_seed
-    
-    b.splash 
 
-    b.render
-    
-        
-    #b.generate_board
+    inside loop:
+      until b.solved?
+        # clear screen
+        system "clear"
+        # ascii title splash
+        b.splash 
+        # render board
+        b.render
+        # get x,y position from the player, check tile
+        b.choose_square
 
-    #b.populate_board
-
-    # inside loop:
-      # until b.solved?
-        # # clear screen
-        # system "clear"
-        # # ascii title splash
-        # b.splash 
-        # # render board
-        # b.render
-      #   # get x,y position from the player, check tile
-      #   b.update_tile
-      # end
+        # b.update_tile
+      end
     end
 
   end
