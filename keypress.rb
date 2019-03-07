@@ -1,5 +1,6 @@
 require 'io/console'
 
+# https://gist.github.com/acook/4190379
 # Reads keypresses from the user including 2 and 3 escape character sequences.
 def read_char
   STDIN.echo = false
