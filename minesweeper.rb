@@ -8,13 +8,13 @@
 require 'colorize'
 
 class Board 
-  attr_accessor :grid
+  attr_accessor :grid, :tag
   
   def initialize
     @rows = 9
     @value = nil
     @grid = grid
-    @tag = nil
+    @tag = tag
   end
 
   def generate_board(rows, value)
@@ -81,12 +81,19 @@ class Board
     tag = gets.chomp
 
     # tag is f or x
-    puts tag
+    @tag = tag
+
+    if @grid[row][col] == 0
+      puts "cool"
+    else 
+      puts "yer dead"
+    end
    
   end
 
   # def check_square
   #   x = grid[row][col]
+  #   if x.match 
   #     self.update_square
   #   end
   # end
@@ -124,11 +131,12 @@ class Board
     end
     puts "         0   1   2   3   4   5   6   7   8".light_black
     puts  # adds newline at end of board
+    p @grid
   end
   
 
   def solved?
-    # are there any tiles on the board that are uncovered?
+    # are there any open spaces on the board that have not been uncovered or flagged?
     if grid.flatten.each.include?(0)
       return false
     else
@@ -191,14 +199,18 @@ class Game < Board
     inside loop:
       until b.solved?
         # clear screen
-        system "clear"
+        # system "clear"
         # ascii title splash
         b.splash 
         # render board
         b.render
+        p b 
+        p grid
         # get x,y position from the player
         b.choose_square
 
+        p b 
+        p grid
         # check square
         
         # update square
