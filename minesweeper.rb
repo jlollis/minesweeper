@@ -6,7 +6,6 @@
 # Then, follow the prompts. Have fun! ;)
 
 require 'colorize'
-require 'colorized_string'
 
 class Board 
   attr_accessor :grid
@@ -86,8 +85,8 @@ class Board
     # puts "\e[H\e[2J"
 
     values = @grid
-    puts "         0   1   2   3   4   5   6   7   8".light_black
-    puts "       +---+---+---+---+---+---+---+---+---+".light_black
+   
+    puts "      +---+---+---+---+---+---+---+---+---+".light_black
 
     values.each_with_index do |row, idx|
       print "     #{idx} |".light_black
@@ -106,7 +105,9 @@ class Board
       end
       print "|\n".light_black
       puts "       +---+---+---+---+---+---+---+---+---+".light_black
+      
     end
+    puts "         0   1   2   3   4   5   6   7   8".light_black
     puts  # adds newline at end of board
   end
   
@@ -116,7 +117,7 @@ class Board
     # if grid.flatten.each.include?(0)
     #   return false
     # else
-    #   puts " You completed the puzzle! Yay!!".light_yellow
+    #   puts "You found all the mines! Yay!!".light_yellow
     #   puts
     #   puts "  (•_•) / ( •_•)>⌐■-■ / (⌐■_■) ".light_yellow
     #   puts
@@ -125,15 +126,24 @@ class Board
   end
 
   def splash
-#     title = %q{
-#               ___  __        ___  ___  __   ___  __  
-#  |\/| | |\ | |__  /__` |  | |__  |__  |__) |__  |__) 
-#  |  | | | \| |___ .__/ |/\| |___ |___ |    |___ |  \ 
+    title = %q{
+
+                    ( ͡° ͜ʖ ͡°)     
           
-# }.light_yellow
+ }.light_yellow
 
-#     print title
+   print title
 
+  end
+
+  def timer 
+    minutes = 0.2
+    start_time = Time.now
+    seconds = minutes * 60
+    end_time = start_time + seconds 
+    while Time.now < end_time
+    end
+    puts "It's Over!"
   end
 
 end
@@ -149,8 +159,11 @@ class Game < Board
     b = Board.new
 
     b.random_seed
+    
+    b.splash 
 
     b.render
+    
         
     #b.generate_board
 
@@ -158,12 +171,12 @@ class Game < Board
 
     # inside loop:
       # until b.solved?
-      #   # clear screen
-      #   system "clear"
-      #   # ascii title splash
-      #   b.splash 
-      #   # render board
-      #   b.render
+        # # clear screen
+        # system "clear"
+        # # ascii title splash
+        # b.splash 
+        # # render board
+        # b.render
       #   # get x,y position from the player, check tile
       #   b.update_tile
       # end
