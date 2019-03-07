@@ -1,4 +1,4 @@
-# minesweeper
+# :sunglasses: minesweeper
 
 To create a remote github repository from your desktop, do the following:
 1. `mkdir repository_name`
