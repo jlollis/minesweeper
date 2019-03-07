@@ -14,7 +14,7 @@ class Board
     @rows = 9
     @value = nil
     @grid = grid
-
+    @tag = nil
   end
 
   def generate_board(rows, value)
@@ -50,15 +50,14 @@ class Board
     File.open('minefield.txt', 'r') do |file|
 
       file.each_line do |line|
-        @grid << line.chomp.split('').map.(&:to_s)
+        @grid << line.chomp.split('').map.(&:to_i)
       end
       p @grid
     end
   end
 
   def reveal_square
-    # choose a square to reveal. 
-    # If it contains a bomb, game over. 
+    # If square contains a bomb, game over. 
     # Otherwise, it will be revealed. 
     # If none of its neighbors contains a bomb, 
     # then all the adjacent neighbors are also revealed. 
@@ -77,12 +76,13 @@ class Board
     row = gets.chomp.to_i
     print "column: "
     col = gets.chomp.to_i
-    puts
+    puts "Enter would you like to open the space, or flag it? "
+    print "Enter (x) for open, or (f) for flag: "
+    tag = gets.chomp
 
-    char = "_"
-    
-    puts @grid[row][col]
-
+    # tag is f or x
+    puts tag
+   
   end
 
   # def check_square
@@ -110,7 +110,7 @@ class Board
           print "|".light_black
         end
         # color coding output to cells
-        if " #{value} ".match?(/[B]/)  # bombs
+        if " #{value} ".match?(/[1]/)  # bombs
           print " B ".red
         elsif value.is_a? String   # selected square
           print " #{value} ".light_yellow
