@@ -15,7 +15,7 @@ class Board
     @value = nil
     @grid = grid
     @tag = tag
-    @flags = 2
+    @flags = 10
   end
 
   def generate_board(rows, value)
@@ -78,8 +78,8 @@ class Board
     print "column: "
     col = gets.chomp.to_i
 
-    if @flags = 0
-      puts "You ran out of flags. Please enter (x) to open the square.  "
+    if @flags == 0
+      puts "Please enter (x) to open the square.  "
     else
       puts "Enter would you like to open the space, or flag it? "
       print "Enter (x) for open, or (f) for flag: "
@@ -92,17 +92,27 @@ class Board
 
     if @grid[row][col] == 0
       puts "no bomb"
-      if @tag.match?(/[f]/)
+      if @tag.match?(/[f]/)   # flag square
         puts "flagged"
         @flags -= 1
         puts @flags
-        @grid[col][row] = tag
-      else 
+        @grid[row][col] = tag # update spot to "f"
+      
+      else                    # open square
         puts "cleared"
+        @grid[row][col] = tag # update spot to "x"
       end
-
     else 
       puts "bomb present"
+      if @tag.match?(/[f]/)   # flag square
+        puts "flagged"
+        @flags -= 1
+        puts @flags
+        @grid[row][col] = tag  # update spot tp "f"
+
+      else                    # open square
+        puts "you died"       # don't update, we will print where all the bombs were.
+      end
     end
    
   end
@@ -124,7 +134,7 @@ class Board
 
     values = @grid
    
-    puts "   +---+---+---+---+---+---+---+---+---+".light_black
+    puts "      +---+---+---+---+---+---+---+---+---+".light_black
 
     values.each_with_index do |row, idx|
       print "     #{idx} |".light_black
@@ -166,36 +176,31 @@ class Board
   end
 
   def splash
-    title = %q{
 
-
-
-    }.light_black
-
-#  normal = %q{
-#            _____                   _____
-#           |     |                 |   __|
-#           | | | |    ( ͡° ͜ʖ ͡°)     |__   |
-#           |_|_|_|                 |_____|  
+normal = %q{
+           _____                   _____
+          |     |                 |   __|
+          | | | |    ( ͡° ͜ʖ ͡°)     |__   |
+          |_|_|_|                 |_____|  
           
-#  }.yellow
+ }.yellow
 
-#  anticipation = %q{
-#            _____                   _____
-#           |     |                 |   __|
-#           | | | |    ( ͡° ʖ ͡°)     |__   |
-#           |_|_|_|        0        |_____| 
+anticipation = %q{
+           _____                   _____
+          |     |                 |   __|
+          | | | |    ( ͡° ʖ ͡°)     |__   |
+          |_|_|_|        0        |_____| 
           
-#  }.yellow
+ }.yellow
 
-#  death = %q{
-#            _____                   _____
-#           |     |                 |   __|
-#           | | | |    ( ͡X ʖ ͡X)     |__   |
-#           |_|_|_|        ~        |_____| 
+death = %q{
+           _____                   _____
+          |     |                 |   __|
+          | | | |    ( ͡X ʖ ͡X)     |__   |
+          |_|_|_|        ~        |_____| 
           
-#  }.yellow
-   print title
+ }.light_black
+   print normal
 
   end
 
