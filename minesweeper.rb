@@ -8,7 +8,7 @@
 require 'colorize'
 
 class Board 
-  attr_accessor :grid, :tag, :dead
+  attr_accessor :grid, :tag, :dead, :row, :col
   
   def initialize
     @rows = 9
@@ -17,6 +17,8 @@ class Board
     @tag = tag
     @flags = 10
     @dead = false
+    @x =  nil
+    @y = nil
   end
 
   def generate_board(rows, value)
@@ -47,6 +49,11 @@ class Board
       @grid
     end
   end
+
+  # def random_starting_square
+  #   # could have the board choose the first non-losing square for you, like in the MS version
+  #   # this is to add later, its only 9x9
+  # end
 
   def populate_board
     File.open('minefield.txt', 'r') do |file|
@@ -100,6 +107,15 @@ class Board
         @grid[row][col] = tag # update spot to "f"
       
       else                    # open square
+        
+        puts @grid[row-1][col-1] 
+        puts @grid[row-1][col] 
+        puts @grid[row-1][col+1] 
+        puts @grid[row][col-1] 
+        puts @grid[row][col+1] 
+        puts @grid[row+1][col-1] 
+        puts @grid[row+1][col] 
+        puts @grid[row+1][col+1] 
         puts "cleared"
         @grid[row][col] = tag # update spot to "x"
       end
@@ -116,6 +132,9 @@ class Board
         @dead = true
       end
     end
+
+
+
    
   end
   
@@ -269,13 +288,13 @@ class Game < Board
     # inside loop:
       until b.solved?
         # clear screen
-        system "clear"
+        # system "clear"
         # ascii title splash
         b.splash 
         # render board
         b.render
-        # p b 
-        # p grid
+        p b 
+        p grid
 
         # get x,y position from the player
         b.choose_square
