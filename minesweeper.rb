@@ -8,7 +8,7 @@
 require 'colorize'
 
 class Board 
-  attr_accessor :grid, :tag
+  attr_accessor :grid, :tag, :dead
   
   def initialize
     @rows = 9
@@ -16,6 +16,7 @@ class Board
     @grid = grid
     @tag = tag
     @flags = 10
+    @dead = false
   end
 
   def generate_board(rows, value)
@@ -53,7 +54,7 @@ class Board
       file.each_line do |line|
         @grid << line.chomp.split('').map.(&:to_i)
       end
-      p @grid
+      # p @grid
     end
   end
 
@@ -88,7 +89,7 @@ class Board
     tag = gets.chomp
 
     # tag is f or x
-    @tag = tag
+    @tag = tag.downcase
 
     if @grid[row][col] == 0
       puts "no bomb"
@@ -111,12 +112,13 @@ class Board
         @grid[row][col] = tag  # update spot tp "f"
 
       else                    # open square
-        puts "you died"       # don't update, we will print where all the bombs were.
+        # puts "you died"       # don't update, we will print where all the bombs were.
+        @dead = true
       end
     end
    
   end
-
+  
   # def check_square
   #   x = grid[row][col]
   #   if x.match 
@@ -130,6 +132,39 @@ class Board
 
   # render current board state
   def render
+    # puts "\e[H\e[2J"
+
+    values = @grid
+   
+    puts "      +---+---+---+---+---+---+---+---+---+".light_black
+
+    values.each_with_index do |row, idx|
+      print "     #{idx} |".light_black
+      row.each_with_index do |value, idx|
+        if idx >= 1
+          print "|".light_black
+        end
+        # color coding output to cells
+        if " #{value} ".match?(/[f]/)  
+          print " #{value} ".light_green
+        elsif " #{value} ".match?(/[x]/)  
+          print " #{value} ".light_blue
+        elsif value.is_a? String   # selected square
+          print " #{value} ".light_yellow
+        else
+          print " ? ".light_black  
+        end
+      end
+      print "|\n".light_black
+      puts "       +---+---+---+---+---+---+---+---+---+".light_black
+      
+    end
+    puts "         0   1   2   3   4   5   6   7   8".light_black
+    puts  # adds newline at end of board
+    # p @grid
+  end
+
+  def render_later
     # puts "\e[H\e[2J"
 
     values = @grid
@@ -157,26 +192,26 @@ class Board
     end
     puts "         0   1   2   3   4   5   6   7   8".light_black
     puts  # adds newline at end of board
-    p @grid
+    @grid
   end
 
   
 
   def solved?
     # are there any open spaces on the board that have not been uncovered or flagged?
-    if grid.flatten.each.include?(0) 
-      return false
+    if @dead
+      you_died
+      render_later
+    # elsif grid.flatten.each.include?(0) 
+    #   return false
     else
-      puts "You found all the mines! Yay!!".light_yellow
-      puts
-      puts "  (•_•) / ( •_•)>⌐■-■ / (⌐■_■) ".light_yellow
-      puts
+      you_won
+      render_later
       return true
     end
   end
 
   def splash
-
 happy = %q{
            _____                   _____
           |     |                 |   __|
@@ -192,16 +227,29 @@ anxious = %q{
           |_|_|_|        0        |_____| 
           
  }.yellow
+   print happy
+  end
 
+  def you_died
 dead = %q{
            _____                   _____
-          |     |                 |   __|
+          |     |    YOU DIED!    |   __|
           | | | |    ( ͡X ʖ ͡X)     |__   |
           |_|_|_|        ~        |_____| 
           
  }.light_black
-   print happy
+   print dead
+  end
 
+  def you_won
+  winning = %q{
+           _____                   _____
+          |     | YOU GOT EM ALL! |   __|
+          | | | |    (⌐-■ ͜ʖ-■)    |__   |
+          |_|_|_|    <winning>    |_____|  
+          
+  }.light_green
+   print winning
   end
 
 end
@@ -218,26 +266,29 @@ class Game < Board
 
     b.random_seed
 
-    inside loop:
+    # inside loop:
       until b.solved?
         # clear screen
-        # system "clear"
+        system "clear"
         # ascii title splash
         b.splash 
         # render board
         b.render
-        p b 
-        p grid
+        # p b 
+        # p grid
+
         # get x,y position from the player
         b.choose_square
 
-        p b 
-        p grid
+        #p b 
+        #p grid
         # check square
         
         # update square
 
       end
+      # reveals the bombs after you die
+      # b.render_later
     end
 
   end
