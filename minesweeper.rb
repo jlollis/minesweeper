@@ -177,7 +177,7 @@ class Board
 
   def splash
 
-normal = %q{
+happy = %q{
            _____                   _____
           |     |                 |   __|
           | | | |    ( ͡° ͜ʖ ͡°)     |__   |
@@ -185,7 +185,7 @@ normal = %q{
           
  }.yellow
 
-anticipation = %q{
+anxious = %q{
            _____                   _____
           |     |                 |   __|
           | | | |    ( ͡° ʖ ͡°)     |__   |
@@ -193,14 +193,14 @@ anticipation = %q{
           
  }.yellow
 
-death = %q{
+dead = %q{
            _____                   _____
           |     |                 |   __|
           | | | |    ( ͡X ʖ ͡X)     |__   |
           |_|_|_|        ~        |_____| 
           
  }.light_black
-   print normal
+   print happy
 
   end
 
