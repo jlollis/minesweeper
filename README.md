@@ -13,7 +13,10 @@ ruby minesweeper.rb
 
 5. Clicking a square that is empty reveals a value that indicates the number of neighboring squares that contain bombs. You can use this to help you guess which of the remaining squares have bombs, and which are clear.
 
-6. When you have chosen a square, you will be asked if you would like to open the space or to flag it for the bomb squad. Enter 'X' to open the space, or 'f' to flag it. 
+6. When you have chosen a square, you will be asked if you would like to open the space or to flag it if you think it contains a bomb. Enter 'x' to open the space, or 'f' to flag it. 
+
+7. You are only allowed 10 flags, so use these wisely.
+
 
 #### Github notes:
 To create a remote github repository from your desktop, do the following:
