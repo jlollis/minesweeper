@@ -32,9 +32,9 @@ class Board
   end  
 
   def random_seed
-    File.open('seed.txt', 'w') do |file|
+    File.open('minefield.txt', 'w') do |file|
 
-      @rows.times do |x|
+      @rows.times do |line|
         file.puts (1..@rows).map { [0, 1].sample }.join
       end
 
@@ -42,29 +42,29 @@ class Board
     end
   end
 
-  # def populate_board
-  #   File.open('seed.txt') do |file|
+  def populate_board
+    File.open('minefield.txt', 'r') do |file|
 
-  #     file.each_line do |line|
-  #       @grid << line.chomp.split('').map
-  #     end
-  #     @grid
-  #   end
-  # end
+      file.each_line do |line|
+        @grid << line.chomp.split('').map
+      end
+      @grid
+    end
+  end
 
   # update the value of a Tile to the given postition
   def update_tile
     # update selection for grid[col][row]
-    #puts "#{@grid[2][0]}"
+    puts "#{@grid[2][0]}"
     
-    puts "Select a tile: "
-    print "row: "
-    row = gets.chomp.to_i
-    print "column: "
-    col = gets.chomp.to_i
-    puts
+    # puts "Select a tile: "
+    # print "row: "
+    # row = gets.chomp.to_i
+    # print "column: "
+    # col = gets.chomp.to_i
+    # puts
 
-    @grid[row][col] = val
+    # @grid[row][col] = val
 
   end
 
@@ -73,9 +73,11 @@ class Board
     # puts "\e[H\e[2J"
 
     values = @grid
+    puts "         0   1   2   3   4   5   6   7   8".light_black
     puts "       +---+---+---+---+---+---+---+---+---+".light_black
-    values.each do |row|
-      print "       |".light_black
+
+    values.each_with_index do |row, idx|
+      print "     #{idx} |".light_black
       row.each_with_index do |value, idx|
         if idx >= 1
           print "|".light_black
@@ -110,15 +112,14 @@ class Board
   end
 
   def splash
-    title = %q{
-              ___  __        ___  ___  __   ___  __  
- |\/| | |\ | |__  /__` |  | |__  |__  |__) |__  |__) 
- |  | | | \| |___ .__/ |/\| |___ |___ |    |___ |  \ 
-                                                     
+#     title = %q{
+#               ___  __        ___  ___  __   ___  __  
+#  |\/| | |\ | |__  /__` |  | |__  |__  |__) |__  |__) 
+#  |  | | | \| |___ .__/ |/\| |___ |___ |    |___ |  \ 
           
-}.light_green
+# }.light_yellow
 
-    print title
+#     print title
 
   end
 
