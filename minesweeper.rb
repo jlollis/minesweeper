@@ -183,7 +183,7 @@ class Game < Board
   # methods for managing the Board-Player interaction
   def play
 
-    # loop that runs until puzzle is solved
+    # loop that runs until board is clear
     b = Board.new
 
     b.random_seed
@@ -196,10 +196,13 @@ class Game < Board
         b.splash 
         # render board
         b.render
-        # get x,y position from the player, check tile
+        # get x,y position from the player
         b.choose_square
 
-        # b.update_tile
+        # check square
+        
+        # update square
+
       end
     end
 
