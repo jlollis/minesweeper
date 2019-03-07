@@ -6,6 +6,7 @@
 # Then, follow the prompts. Have fun! ;)
 
 require 'colorize'
+require 'colorized_string'
 
 class Board 
   attr_accessor :grid
@@ -32,15 +33,27 @@ class Board
   end  
 
   def random_seed
+    @grid = []
     File.open('minefield.txt', 'w') do |file|
 
       @rows.times do |line|
-        file.puts (1..@rows).map { [0, 1].sample }.join
+        strip = (1..@rows).map { ['.', '.', '.', '.', 'B'].sample }.join
+        @grid << strip.split('').map(&:to_i)
+        file.puts strip
       end
-
       file.close
+      @grid
     end
   end
+
+  
+  # def populate_array(file)
+  #   @grid = []
+  #   File.open(file).map do |line|
+  #     @grid << line.chomp.split('').map(&:to_i)
+  #   end
+  #   @grid
+  # end
 
   def populate_board
     File.open('minefield.txt', 'r') do |file|
@@ -48,7 +61,7 @@ class Board
       file.each_line do |line|
         @grid << line.chomp.split('').map
       end
-      @grid
+      p @grid
     end
   end
 
@@ -136,22 +149,24 @@ class Game < Board
     b = Board.new
 
     b.random_seed
+
+    b.render
         
     #b.generate_board
 
     #b.populate_board
 
     # inside loop:
-      until b.solved?
-        # clear screen
-        system "clear"
-        # ascii title splash
-        b.splash 
-        # render board
-        b.render
-        # get x,y position from the player, check tile
-        b.update_tile
-      end
+      # until b.solved?
+      #   # clear screen
+      #   system "clear"
+      #   # ascii title splash
+      #   b.splash 
+      #   # render board
+      #   b.render
+      #   # get x,y position from the player, check tile
+      #   b.update_tile
+      # end
     end
 
   end
