@@ -14,6 +14,7 @@ class Board
     @rows = 9
     @value = nil
     @grid = grid
+
   end
 
   def generate_board(rows, value)
@@ -41,15 +42,15 @@ class Board
     end
   end
 
-  def populate_board
-    File.open('seed.txt') do |file|
+  # def populate_board
+  #   File.open('seed.txt') do |file|
 
-      file.each_line do |line|
-        @grid << line.chomp.split('').map
-      end
-      @grid
-    end
-  end
+  #     file.each_line do |line|
+  #       @grid << line.chomp.split('').map
+  #     end
+  #     @grid
+  #   end
+  # end
 
   # update the value of a Tile to the given postition
   def update_tile
@@ -96,17 +97,16 @@ class Board
   
 
   def solved?
-    are there any tiles on the board that are uncovered?
-    if grid.flatten.each.include?(0)
-      return false
-    else
-      puts " You completed the puzzle! Yay!!".light_yellow
-      puts
-      puts "        (•_•) / ( •_•)>⌐■-■ / (⌐■_■)       ".light_yellow
-
-      puts
-      return true
-    end
+    # are there any tiles on the board that are uncovered?
+    # if grid.flatten.each.include?(0)
+    #   return false
+    # else
+    #   puts " You completed the puzzle! Yay!!".light_yellow
+    #   puts
+    #   puts "  (•_•) / ( •_•)>⌐■-■ / (⌐■_■) ".light_yellow
+    #   puts
+    #   return true
+    # end
   end
 
   def splash
@@ -116,7 +116,7 @@ class Board
  |  | | | \| |___ .__/ |/\| |___ |___ |    |___ |  \ 
                                                      
           
-}.light_blue
+}.light_green
 
     print title
 
@@ -135,9 +135,10 @@ class Game < Board
     b = Board.new
 
     b.random_seed
-        b.generate_board
+        
+    #b.generate_board
 
-    b.populate_board
+    #b.populate_board
 
     # inside loop:
       until b.solved?
