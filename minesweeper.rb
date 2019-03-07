@@ -15,6 +15,7 @@ class Board
     @value = nil
     @grid = grid
     @tag = tag
+    @flags = 2
   end
 
   def generate_board(rows, value)
@@ -76,17 +77,32 @@ class Board
     row = gets.chomp.to_i
     print "column: "
     col = gets.chomp.to_i
-    puts "Enter would you like to open the space, or flag it? "
-    print "Enter (x) for open, or (f) for flag: "
+
+    if @flags = 0
+      puts "You ran out of flags. Please enter (x) to open the square.  "
+    else
+      puts "Enter would you like to open the space, or flag it? "
+      print "Enter (x) for open, or (f) for flag: "
+    end
+
     tag = gets.chomp
 
     # tag is f or x
     @tag = tag
 
     if @grid[row][col] == 0
-      puts "cool"
+      puts "no bomb"
+      if @tag.match?(/[f]/)
+        puts "flagged"
+        @flags -= 1
+        puts @flags
+        @grid[col][row] = tag
+      else 
+        puts "cleared"
+      end
+
     else 
-      puts "yer dead"
+      puts "bomb present"
     end
    
   end
@@ -133,11 +149,12 @@ class Board
     puts  # adds newline at end of board
     p @grid
   end
+
   
 
   def solved?
     # are there any open spaces on the board that have not been uncovered or flagged?
-    if grid.flatten.each.include?(0)
+    if grid.flatten.each.include?(0) 
       return false
     else
       puts "You found all the mines! Yay!!".light_yellow
