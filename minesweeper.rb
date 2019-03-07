@@ -37,7 +37,7 @@ class Board
     File.open('minefield.txt', 'w') do |file|
 
       @rows.times do |line|
-        strip = (1..@rows).map { ['0', '0', '0', '0', '1'].sample }.join # 1 isS bomb
+        strip = (1..@rows).map { ['0', '0', '0', '0', '1'].sample }.join # 1 is Bomb, 0 is empty
         @grid << strip.split('').map(&:to_i)
         file.puts strip
       end
@@ -101,7 +101,7 @@ class Board
 
     values = @grid
    
-    puts "      +---+---+---+---+---+---+---+---+---+".light_black
+    puts "   +---+---+---+---+---+---+---+---+---+".light_black
 
     values.each_with_index do |row, idx|
       print "     #{idx} |".light_black
@@ -141,13 +141,11 @@ class Board
   end
 
   def splash
-#     title = %q{
-#            _____                   _____
-#           |     |                 |   __|
-#           | | | |    ( ͡° ͜ʖ ͡°)     |__   |
-#           |_|_|_|                 |_____|  
-          
-#  }.yellow
+    title = %q{
+
+
+
+    }.light_black
 
 #  normal = %q{
 #            _____                   _____
@@ -172,9 +170,9 @@ class Board
 #           |_|_|_|        ~        |_____| 
           
 #  }.yellow
-#    print normal
+   print title
 
-#   end
+  end
 
 end
 
