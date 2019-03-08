@@ -16,4 +16,5 @@ ruby minesweeper.rb
 7. You are only allowed 10 flags, use them wisely.
 
 
-***WORK IN PROGRESS***
+ 🚧*WORK IN PROGRESS*🚧
+ 
