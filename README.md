@@ -11,8 +11,6 @@ ruby minesweeper.rb
 
 4. If you manage to click all the squares, without clicking on any bombs, you win the game.
 
-5. Clicking a square that is empty reveals a value that indicates the number of neighboring squares that contain bombs. You can use this to help you guess which of the remaining squares have bombs, and which are clear.
-
-6. When you have chosen a square, you will be asked if you would like to open the space or to flag it if you think it contains a bomb. Enter 'x' to open the space, or 'f' to flag it. 
+5. When you have chosen a square, you will be asked if you would like to open the space or to flag it if you think it contains a bomb. Enter 'x' to open the space, or 'f' to flag it. 
 
 7. You are only allowed 10 flags, use them wisely.
