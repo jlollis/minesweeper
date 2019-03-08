@@ -14,3 +14,6 @@ ruby minesweeper.rb
 5. When you have chosen a square, you will be asked if you would like to open the space or to flag it if you think it contains a bomb. Enter 'x' to open the space, or 'f' to flag it. 
 
 7. You are only allowed 10 flags, use them wisely.
+
+
+***WORK IN PROGRESS***
