@@ -65,16 +65,6 @@ class Board
     end
   end
 
-  def reveal_square
-    # If square contains a bomb, game over. 
-    # Otherwise, it will be revealed. 
-    # If none of its neighbors contains a bomb, 
-    # then all the adjacent neighbors are also revealed. 
-    # If any of the neighbors have no adjacent bombs, 
-    # they too are revealed.
-  end
-
-
   # update the value of a Tile to the given postition
   def choose_square
     # update selection for grid[col][row]
@@ -123,11 +113,17 @@ class Board
         # puts "you died"       # don't update, we will print where all the bombs were.
         @dead = true
       end
-
     end
+  end
+  
+  # TODO:
+  def inspect_adjacent_squares
+    # If none of its neighbors contains a bomb, then all the adjacent neighbors are also revealed. If any of the neighbors have no adjacent bombs, they too are revealed. Et cetera.
 
+    # The "fringe" of the revealed area is squares all adjacent to a bomb (or corner). The fringe should be revealed and contain the count of adjacent bombs.
+  end
 
-def inspect 
+  def inspect
     # clear adjacent squares if empty
     # if @grid[row-1][col-1] == 0
     #   @grid[row-1][col-1] = "_"
@@ -155,18 +151,7 @@ def inspect
     # end
   end
    
-  end
   
-  # def check_square
-  #   x = grid[row][col]
-  #   if x.match 
-  #     self.update_square
-  #   end
-  # end
-
-  # def update_square
-
-  # end
 
   # render current board state
   def render
@@ -303,6 +288,9 @@ class Game < Board
   # methods for managing the Board-Player interaction
   def play
 
+    # clear screen
+    system "clear"
+
     # loop that runs until board is clear
     b = Board.new
 
@@ -316,12 +304,12 @@ class Game < Board
         b.splash 
         # render board
         b.render
-        p b 
-        p grid
+        # p b 
+        # p grid
 
         # get position from the player
         b.choose_square
-        b.inspect
+        # b.inspect
 
         #p b 
         #p grid
