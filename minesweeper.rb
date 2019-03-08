@@ -17,8 +17,8 @@ class Board
     @tag = tag
     @flags = 10
     @dead = false
-    @x =  nil
-    @y = nil
+    @row =  nil
+    @col = nil
   end
 
   def generate_board(rows, value)
@@ -82,9 +82,9 @@ class Board
     
     puts "Select a square: "
     print "row: "
-    row = gets.chomp.to_i
+    @row = gets.chomp.to_i
     print "column: "
-    col = gets.chomp.to_i
+    @col = gets.chomp.to_i
 
     if @flags == 0
       puts "Please enter (x) to open the square.  "
@@ -107,17 +107,9 @@ class Board
         @grid[row][col] = tag # update spot to "f"
       
       else                    # open square
-        
-        puts @grid[row-1][col-1] 
-        puts @grid[row-1][col] 
-        puts @grid[row-1][col+1] 
-        puts @grid[row][col-1] 
-        puts @grid[row][col+1] 
-        puts @grid[row+1][col-1] 
-        puts @grid[row+1][col] 
-        puts @grid[row+1][col+1] 
-        puts "cleared"
+        # clear adjacent squares if open 
         @grid[row][col] = tag # update spot to "x"
+        
       end
     else 
       puts "bomb present"
@@ -131,10 +123,37 @@ class Board
         # puts "you died"       # don't update, we will print where all the bombs were.
         @dead = true
       end
+
     end
 
 
-
+def inspect 
+    # clear adjacent squares if empty
+    # if @grid[row-1][col-1] == 0
+    #   @grid[row-1][col-1] = "_"
+    # end
+    # if @grid[row-1][col] == 0
+    #   @grid[row-1][col] = "_"
+    # end
+    # if @grid[row-1][col+1] == 0
+    #   @grid[row-1][col+1] = "_"
+    # end
+    # if @grid[row][col-1] == 0
+    #   @grid[row][col-1] = "_"
+    # end
+    # if @grid[row][col+1] == 0
+    #   @grid[row][col+1] = "_"
+    # end
+    # if @grid[row+1][col-1] == 0
+    #   @grid[row+1][col-1] = "_"
+    # end
+    # if @grid[row+1][col] == 0
+    #   @grid[row+1][col] = "_"
+    # end
+    # if @grid[row+1][col+1] == 0
+    #   @grid[row+1][col+1] = "_"
+    # end
+  end
    
   end
   
@@ -155,18 +174,19 @@ class Board
 
     values = @grid
    
-    puts "      +---+---+---+---+---+---+---+---+---+".light_black
+    puts "       0   1   2   3   4   5   6   7   8".light_black
+    puts "       +---+---+---+---+---+---+---+---+---+".light_black
 
-    values.each_with_index do |row, idx|
-      print "     #{idx} |".light_black
-      row.each_with_index do |value, idx|
-        if idx >= 1
+    values.each_with_index do |r, i|
+      print "     #{i} |".light_black
+      r.each_with_index do |value, i|
+        if i >= 1
           print "|".light_black
         end
         # color coding output to cells
         if " #{value} ".match?(/[f]/)  
           print " #{value} ".light_green
-        elsif " #{value} ".match?(/[x]/)  
+        elsif " #{value} ".match?(/[x_]/)  
           print " #{value} ".light_blue
         elsif value.is_a? String   # selected square
           print " #{value} ".light_yellow
@@ -178,7 +198,7 @@ class Board
       puts "       +---+---+---+---+---+---+---+---+---+".light_black
       
     end
-    puts "         0   1   2   3   4   5   6   7   8".light_black
+    
     puts  # adds newline at end of board
     # p @grid
   end
@@ -188,7 +208,8 @@ class Board
 
     values = @grid
    
-    puts "      +---+---+---+---+---+---+---+---+---+".light_black
+    puts "       0   1   2   3   4   5   6   7   8".light_black
+    puts "       +---+---+---+---+---+---+---+---+---+".light_black
 
     values.each_with_index do |row, idx|
       print "     #{idx} |".light_black
@@ -209,7 +230,7 @@ class Board
       puts "       +---+---+---+---+---+---+---+---+---+".light_black
       
     end
-    puts "         0   1   2   3   4   5   6   7   8".light_black
+    
     puts  # adds newline at end of board
     @grid
   end
@@ -217,12 +238,14 @@ class Board
   
 
   def solved?
-    # are there any open spaces on the board that have not been uncovered or flagged?
+    # did you die?
     if @dead
       you_died
       render_later
-    # elsif grid.flatten.each.include?(0) 
-    #   return false
+    # are there any open spaces on the board that have not been uncovered or flagged?
+    elsif grid.flatten.each.include?(0) 
+      return false
+    # then you win!
     else
       you_won
       render_later
@@ -231,13 +254,13 @@ class Board
   end
 
   def splash
-happy = %q{
+happy = "
            _____                   _____
           |     |                 |   __|
           | | | |    ( ͡° ͜ʖ ͡°)     |__   |
           |_|_|_|                 |_____|  
           
- }.yellow
+ ".yellow
 
 anxious = %q{
            _____                   _____
@@ -288,7 +311,7 @@ class Game < Board
     # inside loop:
       until b.solved?
         # clear screen
-        # system "clear"
+        system "clear"
         # ascii title splash
         b.splash 
         # render board
@@ -296,8 +319,9 @@ class Game < Board
         p b 
         p grid
 
-        # get x,y position from the player
+        # get position from the player
         b.choose_square
+        b.inspect
 
         #p b 
         #p grid
