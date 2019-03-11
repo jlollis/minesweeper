@@ -50,18 +50,12 @@ class Board
     end
   end
 
-  # def random_starting_square
-  #   # could have the board choose the first non-losing square for you, like in the MS version
-  #   # this is to add later, its only 9x9
-  # end
-
   def populate_board
     File.open('minefield.txt', 'r') do |file|
 
       file.each_line do |line|
         @grid << line.chomp.split('').map.(&:to_i)
       end
-      # p @grid
     end
   end
 
@@ -88,11 +82,10 @@ class Board
     @tag = tag.downcase
 
     if @grid[row][col] == 0
-      puts "no bomb"
+      # puts "no bomb"
       if @tag.match?(/[f]/)     # flag square
-        puts "flagged"
         @flags -= 1
-        puts @flags
+          # puts "flagged #{@flags} flags remaining"
         @grid[row][col] = tag   # update spot to "f"
       
       else                      # open square
@@ -148,6 +141,8 @@ class Board
 
   def render_later
 
+    system "clesr"
+
     values = @grid
    
     puts "       0   1   2   3   4   5   6   7   8".light_black
@@ -180,6 +175,7 @@ class Board
   
 
   def solved?
+      system "clear"
     # did you die?
     if @dead
       you_died
@@ -203,14 +199,6 @@ happy = "
           |_|_|_|                 |_____|  
           
  ".yellow
-
-anxious = %q{
-           _____                   _____
-          |     |                 |   __|
-          | | | |    ( ͡° ʖ ͡°)     |__   |
-          |_|_|_|        0        |_____| 
-          
- }.yellow
    print happy
   end
 
