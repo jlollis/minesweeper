@@ -252,7 +252,7 @@ class Game < Board
         # render board
         b.render
 
-        # get position from the player
+        # get position from the player and update board
         b.choose_square
 
       end
