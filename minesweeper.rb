@@ -268,14 +268,9 @@ class Game < Board
         b.choose_square
 
       end
-
     end
-
   end
 
 
-
-
 game = Game.new
-
 game.play
