@@ -1,4 +1,4 @@
-# minesweeper.rb - by Julie Lollis 
+# minesweeper.rb
 
 # How to Play:
 # Open your terminal and type:
@@ -67,7 +67,7 @@ class Board
 
   # update the value of a Tile to the given postition
   def choose_square
-    
+
     # update selection for grid[col][row]
     puts "Select a square: "
     print "row: "
