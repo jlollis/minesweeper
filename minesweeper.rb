@@ -67,9 +67,8 @@ class Board
 
   # update the value of a Tile to the given postition
   def choose_square
-    # update selection for grid[col][row]
-    # puts "#{@grid[2][0]}"
     
+    # update selection for grid[col][row]
     puts "Select a square: "
     print "row: "
     @row = gets.chomp.to_i
@@ -90,72 +89,32 @@ class Board
 
     if @grid[row][col] == 0
       puts "no bomb"
-      if @tag.match?(/[f]/)   # flag square
+      if @tag.match?(/[f]/)     # flag square
         puts "flagged"
         @flags -= 1
         puts @flags
-        @grid[row][col] = tag # update spot to "f"
+        @grid[row][col] = tag   # update spot to "f"
       
-      else                    # open square
-        # clear adjacent squares if open 
-        @grid[row][col] = tag # update spot to "x"
+      else                      # open square
+        @grid[row][col] = tag   # update spot to "x"
         
       end
     else 
       puts "bomb present"
-      if @tag.match?(/[f]/)   # flag square
+      if @tag.match?(/[f]/)     # flag square
         puts "flagged"
         @flags -= 1
         puts @flags
-        @grid[row][col] = tag  # update spot tp "f"
+        @grid[row][col] = tag   # update spot to show "f"
 
-      else                    # open square
-        # puts "you died"       # don't update, we will print where all the bombs were.
+      else                      # open square     
         @dead = true
       end
     end
   end
-  
-  # TODO:
-  def inspect_adjacent_squares
-    # If none of its neighbors contains a bomb, then all the adjacent neighbors are also revealed. If any of the neighbors have no adjacent bombs, they too are revealed. Et cetera.
-
-    # The "fringe" of the revealed area is squares all adjacent to a bomb (or corner). The fringe should be revealed and contain the count of adjacent bombs.
-  end
-
-  def inspect
-    # clear adjacent squares if empty
-    # if @grid[row-1][col-1] == 0
-    #   @grid[row-1][col-1] = "_"
-    # end
-    # if @grid[row-1][col] == 0
-    #   @grid[row-1][col] = "_"
-    # end
-    # if @grid[row-1][col+1] == 0
-    #   @grid[row-1][col+1] = "_"
-    # end
-    # if @grid[row][col-1] == 0
-    #   @grid[row][col-1] = "_"
-    # end
-    # if @grid[row][col+1] == 0
-    #   @grid[row][col+1] = "_"
-    # end
-    # if @grid[row+1][col-1] == 0
-    #   @grid[row+1][col-1] = "_"
-    # end
-    # if @grid[row+1][col] == 0
-    #   @grid[row+1][col] = "_"
-    # end
-    # if @grid[row+1][col+1] == 0
-    #   @grid[row+1][col+1] = "_"
-    # end
-  end
-   
-  
 
   # render current board state
   def render
-    # puts "\e[H\e[2J"
 
     values = @grid
    
@@ -183,13 +142,11 @@ class Board
       puts "       +---+---+---+---+---+---+---+---+---+".light_black
       
     end
-    
     puts  # adds newline at end of board
-    # p @grid
+
   end
 
   def render_later
-    # puts "\e[H\e[2J"
 
     values = @grid
    
@@ -215,8 +172,8 @@ class Board
       puts "       +---+---+---+---+---+---+---+---+---+".light_black
       
     end
-    
     puts  # adds newline at end of board
+
     @grid
   end
 
@@ -281,11 +238,11 @@ dead = %q{
 
 end
 
+
 class Game < Board
-  # Game should have an instance variable for the Board
+
   @grid = []
 
-  # methods for managing the Board-Player interaction
   def play
 
     # clear screen
@@ -300,26 +257,18 @@ class Game < Board
       until b.solved?
         # clear screen
         system "clear"
-        # ascii title splash
+
+        # ascii header graphics
         b.splash 
+
         # render board
         b.render
-        # p b 
-        # p grid
 
         # get position from the player
         b.choose_square
-        # b.inspect
-
-        #p b 
-        #p grid
-        # check square
-        
-        # update square
 
       end
-      # reveals the bombs after you die
-      # b.render_later
+
     end
 
   end
